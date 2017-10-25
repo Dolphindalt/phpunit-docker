@@ -1,6 +1,8 @@
-FROM php:7.1.1
+FROM php:latest
 
-MAINTAINER Trevor Brooks (tbrooks@mtech.edu)
+MAINTAINER Trevor Brooks <tbrooks@mtech.edu>
+
+ENV COMPOSER_ALLOW_SUPERUSER 1
 
 RUN apt-get update -yqq
 RUN apt-get install -yqq git \
@@ -14,8 +16,8 @@ libsnmp-dev libpcre3-dev libtidy-dev
 RUN docker-php-ext-install mbstring mcrypt \
 curl json  gd xml zip \
 bz2 opcache pdo_mysql
-RUN curl -sS https://getcomposer.org/installer | php
-RUN php composer.phar install
+#RUN curl -sS https://getcomposer.org/installer | php && php composer.phar install
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 RUN pecl install xdebug
 RUN docker-php-ext-enable xdebug
 
